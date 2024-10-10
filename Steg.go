@@ -90,14 +90,15 @@ func work(args []string, errc chan<- error, fin chan<- string) {
 		defer close(enc)
 
 		go Data.NewData(dataFile, passphrase, errc, enc)
-		data := <-enc
-
+		
 		img, err := Image.NewImage(targetFile)
 		if err != nil {
 			errc <- err
 			return
 		}
 		resultfile = path.Join(resultfile, "hidden.png")
+
+data := <-enc
 
 		if err := img.ImgCheck(data.Size); err != nil {
 			errc <- err
